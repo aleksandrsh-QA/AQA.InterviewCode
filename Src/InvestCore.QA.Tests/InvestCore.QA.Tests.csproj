@@ -4,13 +4,16 @@
         <TargetFramework>net10.0</TargetFramework>
         <LangVersion>Latest</LangVersion>
         <ImplicitUsings>enable</ImplicitUsings>
-        <OutputType>exe</OutputType>
+        <IsTestProject>true</IsTestProject>
     </PropertyGroup>
 
     <ItemGroup>
-        <PackageReference Include="xunit.v3.core" Version="3.2.1"/>
+        <PackageReference Include="xunit" Version="2.9.3"/>
+        <PackageReference Include="xunit.runner.visualstudio" Version="3.1.5">
+            <PrivateAssets>all</PrivateAssets>
+            <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+        </PackageReference>
         <PackageReference Include="AwesomeAssertions" Version="9.3.0"/>
-        <PackageReference Include="xunit.v3.runner.utility" Version="3.2.2"/>
         <PackageReference Include="Microsoft.NET.Test.Sdk" Version="18.0.1"/>
         <PackageReference Include="Microsoft.Extensions.Hosting" Version="10.0.3"/>
     </ItemGroup>

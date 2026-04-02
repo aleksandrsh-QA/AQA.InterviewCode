@@ -1,16 +1,20 @@
-﻿using InvestCore.QA.Tests.Api;
+using InvestCore.QA.Tests.Api;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Options;
 using Xunit;
 
 namespace InvestCore.QA.Tests.Fixtures;
 
 public class InvestApiFixture : IAsyncLifetime
 {
-    public IServiceProvider ServiceProvider { get; private set; }
-    public IConfiguration Configuration { get; private set; }
+    public IServiceProvider ServiceProvider { get; private set; } = default!;
+    public IConfiguration Configuration { get; private set; } = default!;
+    public InvestApiOptions Options => ServiceProvider.GetRequiredService<IOptions<InvestApiOptions>>().Value;
 
-    public ValueTask InitializeAsync()
+    public IInvestApiClient CreateClient() => ServiceProvider.GetRequiredService<IInvestApiClient>();
+
+    public Task InitializeAsync()
     {
         Configuration = new ConfigurationBuilder()
             .SetBasePath(AppContext.BaseDirectory)
@@ -23,10 +27,10 @@ public class InvestApiFixture : IAsyncLifetime
 
         ServiceProvider = services.BuildServiceProvider();
 
-        return ValueTask.CompletedTask;
+        return Task.CompletedTask;
     }
 
-    public async ValueTask DisposeAsync()
+    public async Task DisposeAsync()
     {
         if (ServiceProvider is IAsyncDisposable disposable)
         {
